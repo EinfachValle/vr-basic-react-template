@@ -1,12 +1,10 @@
-import { configureStore, applyMiddleware, compose } from "redux";
-import thunk from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { thunk } from "redux-thunk";
 import rootReducer from "./reducers";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import { createLogger } from "redux-logger";
-
-const initialState = {};
 
 const logger = createLogger({
   duration: false,
@@ -30,16 +28,13 @@ const persistConfig = {
 
 const pReducer = persistReducer(persistConfig, rootReducer);
 
-const store = configureStore(
-  pReducer,
-  initialState,
-  compose(
-    applyMiddleware(...middlewares),
-    (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()) ||
-      compose,
-  ),
-);
+const store = configureStore({
+  reducer: pReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middlewares),
+});
 
 const persistor = persistStore(store);
 

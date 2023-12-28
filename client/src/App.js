@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import { Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./theme";
+import theme from "./theme";
 import history from "./utils/history";
-import ReactNotification from "react-notifications-component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AppRoutes from "./AppRoutes";
-import { CssBaseline } from "@material-ui/core";
-import "react-notifications-component/dist/theme.css";
+import { CssBaseline } from "@mui/material";
 import "./App.scss";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -15,7 +15,7 @@ function App() {
   return (
     <Fragment>
       <DndProvider backend={HTML5Backend}>
-        <ReactNotification />
+        <ToastContainer />
         <Router history={history}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
